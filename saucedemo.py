@@ -41,8 +41,7 @@ class TestLogin(unittest.TestCase):
         # assert response message
         response_message = browser.find_element(
             By.ID,"login_button_container").text
-        self.assertIn(response_message, 'Username and password ' 
-            +'do not match any user in this service')
+        self.assertIn('Username and password do not match any user in this service', response_message)
 
 if __name__ == "__main__": 
     unittest.main()
