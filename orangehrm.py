@@ -47,5 +47,8 @@ class TestLogin(unittest.TestCase):
             By.CSS_SELECTOR,'p.oxd-alert-content-text').text
         self.assertEqual(response_message, 'Invalid credentials')
 
+    def tearDown(self):
+        self.browser.close()
+
 if __name__ == "__main__": 
     unittest.main()
