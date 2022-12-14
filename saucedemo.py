@@ -75,6 +75,28 @@ class TestLogin(unittest.TestCase):
         self.assertEqual(product_price, '$15.99')
         self.assertIn('data:image/png;base64', product_image)
 
+    def test_e_success_logout(self):
+        # step to open browser
+        browser = self.browser
+        browser.get("https://www.saucedemo.com/")
+        browser.maximize_window()
+        time.sleep(5)
+        # step to fill in email and password
+        browser.find_element(By.ID,"user-name").send_keys("standard_user") 
+        browser.find_element(By.ID,"password").send_keys("secret_sauce") 
+        browser.find_element(By.XPATH,"/html//input[@id='login-button']").click()
+        time.sleep(5)
+        # step to logout
+        browser.find_element(By.ID,"react-burger-menu-btn").click()
+        time.sleep(3)
+        browser.find_element(By.LINK_TEXT,"LOGOUT").click()
+        time.sleep(5)
+        # assert response message
+        response_message = browser.find_element(
+            By.XPATH,"/html//input[@id='login-button']").get_attribute("value")
+        self.assertEquals(response_message, "Login")
+
+
     def tearDown(self):
         self.browser.close()
 
