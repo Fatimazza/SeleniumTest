@@ -70,11 +70,13 @@ class TestLogin(unittest.TestCase):
             By.CSS_SELECTOR,"div.inventory_details_price").text
         product_image = browser.find_element(
             By.TAG_NAME,"img").get_attribute("src")
-
         self.assertEqual(product_name, 'Sauce Labs Bolt T-Shirt')
         self.assertIn('Get your testing superhero on with the Sauce Labs bolt T-shirt', product_desc)
         self.assertEqual(product_price, '$15.99')
         self.assertIn('data:image/png;base64', product_image)
+
+    def tearDown(self):
+        self.browser.close()
 
 if __name__ == "__main__": 
     unittest.main()
