@@ -43,5 +43,38 @@ class TestLogin(unittest.TestCase):
             By.ID,"login_button_container").text
         self.assertIn('Username and password do not match any user in this service', response_message)
 
+    def test_c_success_inventory_product_detail(self):
+        # step to open browser
+        browser = self.browser
+        browser.get("https://www.saucedemo.com/")
+        browser.maximize_window()
+        time.sleep(5)
+        # step to fill in email and password
+        browser.find_element(By.ID,"user-name").send_keys("standard_user") 
+        browser.find_element(By.ID,"password").send_keys("secret_sauce") 
+        browser.find_element(By.XPATH,"/html//input[@id='login-button']").click()
+        time.sleep(5)
+        # assert response message
+        product_3_xpath = "/html//div[@id='inventory_container']/div/div[@id='inventory_container']/div/div[3]/div[@class='inventory_item_description']/div[@class='inventory_item_label']/a[@href='#']/div[@class='inventory_item_name']"
+        response_message = browser.find_element(
+            By.XPATH,product_3_xpath).text
+        self.assertEqual(response_message, 'Sauce Labs Bolt T-Shirt')
+        # step to go to detail page
+        browser.find_element(By.XPATH,product_3_xpath).click()
+        # assert response message
+        product_name = browser.find_element(
+            By.CSS_SELECTOR,"div.inventory_details_name").text
+        product_desc = browser.find_element(
+            By.CSS_SELECTOR,"div.inventory_details_desc").text
+        product_price = browser.find_element(
+            By.CSS_SELECTOR,"div.inventory_details_price").text
+        product_image = browser.find_element(
+            By.TAG_NAME,"img").get_attribute("src")
+
+        self.assertEqual(product_name, 'Sauce Labs Bolt T-Shirt')
+        self.assertIn('Get your testing superhero on with the Sauce Labs bolt T-shirt', product_desc)
+        self.assertEqual(product_price, '$15.99')
+        self.assertIn('data:image/png;base64', product_image)
+
 if __name__ == "__main__": 
     unittest.main()
