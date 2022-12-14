@@ -41,7 +41,7 @@ class TestLogin(unittest.TestCase):
         # assert response message
         response_message = browser.find_element(
             By.ID,"login_button_container").text
-        self.assertEqual(response_message, 'Epic sadface: Username and password ' 
+        self.assertIn(response_message, 'Username and password ' 
             +'do not match any user in this service')
 
 if __name__ == "__main__": 
