@@ -29,5 +29,23 @@ class TestLogin(unittest.TestCase):
             +"//ul[@class='oxd-main-menu']//a[@href='/web/index.php/admin/viewAdminModule']").text
         self.assertEqual(response_message, 'Admin')
 
+    def test_b_failed_login(self):
+        # step to open browser
+        browser = self.browser
+        browser.get("https://opensource-demo.orangehrmlive.com")
+        browser.maximize_window()
+        time.sleep(5)
+        # step to fill in email and password
+        browser.find_element(By.NAME,"username").send_keys("wrong") 
+        browser.find_element(By.NAME,"password").send_keys("wrong") 
+        browser.find_element(By.XPATH,"//div[@id='app']/div[@class='orangehrm-login-layout']"
+            +"/div[@class='orangehrm-login-layout-blob']"
+            +"//form[@action='/web/index.php/auth/validate']/div[3]/button[@type='submit']").click()
+        time.sleep(5)
+        # assert response message
+        response_message = browser.find_element(
+            By.CSS_SELECTOR,'p.oxd-alert-content-text').text
+        self.assertEqual(response_message, 'Invalid credentials')
+
 if __name__ == "__main__": 
     unittest.main()
