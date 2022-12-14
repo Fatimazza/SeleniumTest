@@ -61,6 +61,7 @@ class TestLogin(unittest.TestCase):
         self.assertEqual(response_message, 'Sauce Labs Bolt T-Shirt')
         # step to go to detail page
         browser.find_element(By.XPATH,product_3_xpath).click()
+        time.sleep(3)
         # assert response message
         product_name = browser.find_element(
             By.CSS_SELECTOR,"div.inventory_details_name").text
