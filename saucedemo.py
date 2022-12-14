@@ -43,7 +43,7 @@ class TestLogin(unittest.TestCase):
             By.ID,"login_button_container").text
         self.assertIn('Username and password do not match any user in this service', response_message)
 
-    def test_c_success_inventory_product_detail(self):
+    def test_c_success_open_product_detail(self):
         # step to open browser
         browser = self.browser
         browser.get("https://www.saucedemo.com/")
