@@ -29,7 +29,7 @@ class TestLogin(unittest.TestCase):
             +"//ul[@class='oxd-main-menu']//a[@href='/web/index.php/admin/viewAdminModule']").text
         self.assertEqual(response_message, 'Admin')
 
-    def test_b_failed_login(self):
+    def test_b_failed_login_wrong_credentials(self):
         # step to open browser
         browser = self.browser
         browser.get("https://opensource-demo.orangehrmlive.com")
