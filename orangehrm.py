@@ -47,6 +47,29 @@ class TestLogin(unittest.TestCase):
             By.CSS_SELECTOR,'p.oxd-alert-content-text').text
         self.assertEqual(response_message, 'Invalid credentials')
 
+    def test_c_failed_login_empty_field(self):
+        # step to open browser
+        browser = self.browser
+        browser.get("https://opensource-demo.orangehrmlive.com")
+        browser.maximize_window()
+        time.sleep(5)
+        # step to click button without fill in email and password
+        browser.find_element(
+            By.XPATH, "//div[@id='app']/div[@class='orangehrm-login-layout']" +
+            "/div[@class='orangehrm-login-layout-blob']" +
+            "//form[@action='/web/index.php/auth/validate']/div[3]/button[@type='submit']"
+        ).click()
+        time.sleep(5)
+        # assert response message
+        username_warning_xpath = "//div[@id='app']/div[@class='orangehrm-login-layout']//form[@action='/web/index.php/auth/validate']/div[1]/div/span[.='Required']"
+        pass_warning_xpath = "//div[@id='app']/div[@class='orangehrm-login-layout']//form[@action='/web/index.php/auth/validate']/div[2]/div/span[.='Required']"
+        err_message_username = browser.find_element(
+            By.XPATH, username_warning_xpath).text
+        err_message_password = browser.find_element(
+            By.XPATH, pass_warning_xpath).text
+        self.assertEqual(err_message_username, 'Required')
+        self.assertEqual(err_message_password, 'Required')
+
     def tearDown(self):
         self.browser.close()
 
