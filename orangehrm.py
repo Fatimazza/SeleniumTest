@@ -70,6 +70,32 @@ class TestLogin(unittest.TestCase):
         self.assertEqual(err_message_username, 'Required')
         self.assertEqual(err_message_password, 'Required')
 
+    def test_e_failed_apply_leave(self):
+        # step to open browser
+        browser = self.browser
+        browser.get("https://opensource-demo.orangehrmlive.com")
+        browser.maximize_window()
+        time.sleep(5)
+        # step to fill in email and password
+        browser.find_element(By.NAME,"username").send_keys("Admin") 
+        browser.find_element(By.NAME,"password").send_keys("admin123") 
+        browser.find_element(By.XPATH,"//form[@action='/web/index.php/auth/validate']/div[3]/button[@type='submit']").click()
+        time.sleep(5)
+        # step to apply leave
+        browser.find_element(By.LINK_TEXT, "Leave").click()
+        time.sleep(5)
+        browser.find_element(By.LINK_TEXT, "Apply").click()
+        time.sleep(5)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']//button[@type='submit']").click()
+        time.sleep(5)
+        # assert error message
+        leave_type_err_message = browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[1]//span[.='Required']").text
+        from_date_err_message = browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[2]/div/div[1]/div/span[.='Required']").text
+        to_date_err_message = browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[2]/div/div[2]/div/span[.='Required']").text
+        self.assertEqual(leave_type_err_message, 'Required')
+        self.assertEqual(from_date_err_message, 'Required')
+        self.assertEqual(to_date_err_message, 'Required')
+
     def tearDown(self):
         self.browser.close()
 
