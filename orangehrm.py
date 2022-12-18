@@ -93,7 +93,7 @@ class TestLogin(unittest.TestCase):
         #browser.find_element(By.XPATH, "//*[@id='app']/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div[1]/div/div[2]/div/div[2]/div[2]/span").click()
         browser.find_element(By.XPATH, "//span[text()='CAN - Bereavement']").click()
         time.sleep(2)
-        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[2]/div/div[1]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").send_keys("2022-12-29")
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[2]/div/div[1]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").send_keys("2022-12-30")
         #browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[2]/div/div[2]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").click()
         #browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[2]/div/div[2]/div//div[@class='oxd-calendar-dates-grid']/div[30]/div[@class='oxd-calendar-date']").click()
         #time.sleep(3)
