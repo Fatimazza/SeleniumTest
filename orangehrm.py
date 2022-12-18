@@ -2,6 +2,8 @@ import unittest
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 class TestLogin(unittest.TestCase):
@@ -124,6 +126,50 @@ class TestLogin(unittest.TestCase):
         self.assertEqual(leave_type_err_message, 'Required')
         self.assertEqual(from_date_err_message, 'Required')
         self.assertEqual(to_date_err_message, 'Required')
+
+    def test_f_failed_assign_leave(self):
+        # step to open browser
+        browser = self.browser
+        browser.get("https://opensource-demo.orangehrmlive.com")
+        browser.maximize_window()
+        time.sleep(5)
+        # step to fill in email and password
+        browser.find_element(By.NAME,"username").send_keys("Admin") 
+        browser.find_element(By.NAME,"password").send_keys("admin123") 
+        browser.find_element(By.XPATH,"//form[@action='/web/index.php/auth/validate']/div[3]/button[@type='submit']").click()
+        time.sleep(5)
+        # step to assign leave
+        browser.find_element(By.LINK_TEXT, "Leave").click()
+        time.sleep(5)
+        browser.find_element(By.LINK_TEXT, "Assign Leave").click()
+        time.sleep(5)
+        browser.find_element(By.XPATH, "//div[@class='oxd-autocomplete-wrapper']/div/input[@placeholder='Type for hints...']").send_keys("C")
+        time.sleep(5)
+        browser.find_element(By.XPATH, "//*[@id='app']/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div/div/div[2]/div/div[2]/div[1]").click()
+        time.sleep(5)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[2]/div/div[1]/div//div[@class='oxd-select-wrapper']/div").click()
+        browser.find_element(By.XPATH, "//span[text()='CAN - Bereavement']").click()
+        browser.find_element(By.XPATH, "//div[@id='app']/div[@class='oxd-layout']/div[@class='oxd-layout-container']/div[@class='oxd-layout-context']//form[@class='oxd-form']/div[3]/div/div[1]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").send_keys("2022-12-31")
+        time.sleep(3)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[3]/div/div[2]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").click()
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[3]/div/div[2]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").click()
+        time.sleep(3)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[3]/div/div[2]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").submit()
+        time.sleep(5)
+        try:
+            wait = WebDriverWait(browser, 10)
+            wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@id='app']/div[@role='dialog']//div[@role='document']/div[@class='orangehrm-modal-footer']/button[2]"))).click()      
+        except:
+            pass
+        # assert response message
+        try:
+            wait = WebDriverWait(browser, 10)
+            response_message = wait.until(EC.visibility_of_element_located((By.XPATH, "//*[@id='oxd-toaster_1']/div/div[1]/div[2]/p[1]"))).text
+            response_message_desc = wait.until(EC.visibility_of_element_located((By.XPATH, "//*[@id='oxd-toaster_1']/div/div[1]/div[2]/p[2]"))).text
+            self.assertEqual(response_message, 'Error')
+            self.assertIn('No Working Days Selected', response_message_desc)
+        except:
+            assert False
 
     def tearDown(self):
         self.browser.close()
