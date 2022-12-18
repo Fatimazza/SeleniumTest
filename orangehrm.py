@@ -126,6 +126,45 @@ class TestLogin(unittest.TestCase):
         self.assertEqual(leave_type_err_message, 'Required')
         self.assertEqual(from_date_err_message, 'Required')
         self.assertEqual(to_date_err_message, 'Required')
+    
+    def test_f_success_search_my_leave(self):
+        # step to open browser
+        browser = self.browser
+        browser.get("https://opensource-demo.orangehrmlive.com")
+        browser.maximize_window()
+        time.sleep(5)
+        # step to fill in email and password
+        browser.find_element(By.NAME,"username").send_keys("Admin") 
+        browser.find_element(By.NAME,"password").send_keys("admin123") 
+        browser.find_element(By.XPATH,"//form[@action='/web/index.php/auth/validate']/div[3]/button[@type='submit']").click()
+        time.sleep(5)
+        # step to assign leave
+        browser.find_element(By.LINK_TEXT, "Leave").click()
+        time.sleep(5)
+        browser.find_element(By.LINK_TEXT, "My Leave").click()
+        time.sleep(5)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[@class='oxd-form-row']/div/div[1]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").click()
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[@class='oxd-form-row']//div[.='Clear']").click()
+        time.sleep(2)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[@class='oxd-form-row']/div/div[1]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").send_keys("2022-12-30")
+        time.sleep(5)
+        browser.find_element(By.XPATH, " //form[@class='oxd-form']/div[@class='oxd-form-row']/div/div[2]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").click()
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[@class='oxd-form-row']//div[.='Clear']").click()
+        time.sleep(2)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[@class='oxd-form-row']/div/div[2]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").send_keys("2022-12-30")
+        time.sleep(5)
+        browser.find_element(By.XPATH, "//div[@class='oxd-select-wrapper']/div/div[@class='oxd-select-text-input']").click()
+        browser.find_element(By.XPATH, "//span[text()='CAN - Bereavement']").click()
+        browser.find_element(By.XPATH, "//div[@class='oxd-table-filter-area']/form[@class='oxd-form']//button[@type='submit']").click()
+        time.sleep(5)
+        # assert response message
+        response_message_date = browser.find_element(
+            By.XPATH,"//*[@id='app']/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[1]/div/div[2]/div").text
+        response_message_type = browser.find_element(
+            By.XPATH,"//*[@id='app']/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[1]/div/div[4]/div").text
+        self.assertIn('2022-12-30', response_message_date)
+        self.assertEqual(response_message_type, 'CAN - Bereavement')
+        
 
     def test_g_failed_assign_leave(self):
         # step to open browser
