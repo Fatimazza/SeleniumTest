@@ -127,7 +127,7 @@ class TestLogin(unittest.TestCase):
         self.assertEqual(from_date_err_message, 'Required')
         self.assertEqual(to_date_err_message, 'Required')
 
-    def test_f_failed_assign_leave(self):
+    def test_g_failed_assign_leave(self):
         # step to open browser
         browser = self.browser
         browser.get("https://opensource-demo.orangehrmlive.com")
@@ -171,7 +171,7 @@ class TestLogin(unittest.TestCase):
         except:
             assert False
 
-    def test_g_success_assign_leave(self):
+    def test_h_success_assign_leave(self):
         # step to open browser
         browser = self.browser
         browser.get("https://opensource-demo.orangehrmlive.com")
