@@ -171,6 +171,63 @@ class TestLogin(unittest.TestCase):
         except:
             assert False
 
+    def test_g_success_assign_leave(self):
+        # step to open browser
+        browser = self.browser
+        browser.get("https://opensource-demo.orangehrmlive.com")
+        browser.maximize_window()
+        time.sleep(5)
+        # step to fill in email and password
+        browser.find_element(By.NAME,"username").send_keys("Admin") 
+        browser.find_element(By.NAME,"password").send_keys("admin123") 
+        browser.find_element(By.XPATH,"//form[@action='/web/index.php/auth/validate']/div[3]/button[@type='submit']").click()
+        time.sleep(5)
+        # step to assign leave
+        browser.find_element(By.LINK_TEXT, "Leave").click()
+        time.sleep(5)
+        browser.find_element(By.LINK_TEXT, "Assign Leave").click()
+        time.sleep(5)
+        browser.find_element(By.XPATH, "//div[@class='oxd-autocomplete-wrapper']/div/input[@placeholder='Type for hints...']").send_keys("R")
+        time.sleep(5)
+        browser.find_element(By.XPATH, "//*[@id='app']/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div/div/div[2]/div/div[2]/div[1]").click()
+        time.sleep(5)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[2]/div/div[1]/div//div[@class='oxd-select-wrapper']/div").click()
+        browser.find_element(By.XPATH, "//span[text()='CAN - FMLA']").click()
+        browser.find_element(By.XPATH, "//div[@id='app']/div[@class='oxd-layout']/div[@class='oxd-layout-container']/div[@class='oxd-layout-context']//form[@class='oxd-form']/div[3]/div/div[1]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").send_keys("2022-12-30")
+        time.sleep(3)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[3]/div/div[2]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").click()
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[3]/div/div[2]/div/div[2]/div[@class='oxd-date-wrapper']/div[@class='oxd-date-input']/input[@placeholder='yyyy-mm-dd']").click()
+        time.sleep(3)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[4]/div/div[@class='oxd-grid-item oxd-grid-item--gutters']/div//div[@class='oxd-select-wrapper']/div[1]/div[@class='oxd-select-text-input']").click()
+        browser.find_element(By.XPATH, "//span[text()='Specify Time']").click()
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[4]/div/div[2]/div/div[2]/div[@class='oxd-time-wrapper']/div[@class='oxd-time-input']/input[@placeholder='hh:mm']").click()
+        time.sleep(3)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[4]/div//div[@role='alert']/div[@class='oxd-time-hour-input']/i[1]").click()
+        time.sleep(3)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[4]/div//div[@role='alert']/div[@class='oxd-time-hour-input']/i[1]").click()
+        time.sleep(3)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[4]/div/div[2]/div/div[2]/div[@class='oxd-time-wrapper']/div[@class='oxd-time-input']/input[@placeholder='hh:mm']").click()
+        time.sleep(3)
+        browser.find_element(By.XPATH, "//textarea").send_keys("Check up to doctor")
+        time.sleep(3)
+        browser.find_element(By.XPATH, "//form[@class='oxd-form']/div[@class='oxd-form-actions']").submit()
+        time.sleep(5)
+        try:
+            wait = WebDriverWait(browser, 10)
+            wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@id='app']/div[@role='dialog']//div[@role='document']/div[@class='orangehrm-modal-footer']/button[2]"))).click()      
+        except:
+            pass
+        # assert response message
+        try:
+            wait = WebDriverWait(browser, 10)
+            response_message = wait.until(EC.visibility_of_element_located((By.XPATH, "//*[@id='oxd-toaster_1']/div/div[1]/div[2]/p[1]"))).text
+            response_message_desc = wait.until(EC.visibility_of_element_located((By.XPATH, "//*[@id='oxd-toaster_1']/div/div[1]/div[2]/p[2]"))).text
+            self.assertEqual(response_message, 'Success')
+            self.assertIn('Successfully Saved', response_message_desc)
+        except:
+            assert False
+
+
     def tearDown(self):
         self.browser.close()
 
