@@ -129,4 +129,9 @@ class TestLogin(unittest.TestCase):
         self.browser.close()
 
 if __name__ == "__main__": 
+    # run all test
     unittest.main()
+    
+    # run specific test
+    # unittest.TextTestRunner().run(
+    #    TestLogin('test_a_success_login_standard_user'))
