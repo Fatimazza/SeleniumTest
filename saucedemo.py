@@ -2,12 +2,13 @@ import unittest
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
 class TestLogin(unittest.TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Chrome(ChromeDriverManager().install())
+        self.browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
     #each function begin with "test" and run alphabetically
 
