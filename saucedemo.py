@@ -119,7 +119,7 @@ class TestLogin(unittest.TestCase):
         # step to logout
         browser.find_element(By.ID,"react-burger-menu-btn").click()
         time.sleep(3)
-        browser.find_element(By.LINK_TEXT,"LOGOUT").click()
+        browser.find_element(By.LINK_TEXT,"Logout").click()
         time.sleep(5)
         # assert response message
         response_message = browser.find_element(
