@@ -15,7 +15,6 @@ What will be used on this project
 | Package Manager| PIP (https://pip.pypa.io/en/stable/getting-started/) |
 | UI Test Tools  | Selenium WebDriver with Python (https://pypi.org/project/selenium/) |
 |                | WebDriver Manager (https://pypi.org/project/webdriver-manager/) |
-| Test Reporter  | Pytest HTML (https://pytest-html.readthedocs.io/en/latest/) |
 | Browser        | Latest version of Chrome / Mozilla Firefox  |
 
 
